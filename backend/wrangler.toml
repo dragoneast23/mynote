@@ -1,0 +1,17 @@
+name = "jxgjz-note"
+main = "src/index.ts"
+compatibility_date = "2026-07-11"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "note"
+database_id = "e4b1e512-d2ae-476d-bae6-2fe81031c3a5"
+
+[[kv_namespaces]]
+binding = "KV"
+id = "ba6e98e8974649cca9c640db6b007091"
+
+[vars]
+WECHAT_APPID = "wxe8a901c5f3d32ff0"
+WECHAT_APPSECRET = "12887902f01f7560837b9305e872ce75"
+ADMIN_PASSWORD = "wjl403224736"
