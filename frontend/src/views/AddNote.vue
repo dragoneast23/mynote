@@ -59,10 +59,21 @@ const formatDate = (date) => {
 
 const updateWordCount = () => {}
 
-const goBack = () => {
-  if (form.value.title || form.value.content) {
-    if (!confirm('内容未保存，确定返回？')) return
+const saveNote = async () => {
+  if (!form.value.title && !form.value.content) return
+  
+  try {
+    await notes.add({
+      title: form.value.title || '无标题',
+      content: form.value.content
+    })
+  } catch (error) {
+    console.error('自动保存失败')
   }
+}
+
+const goBack = async () => {
+  await saveNote()
   window.location.href = '/notes'
 }
 
@@ -88,4 +99,8 @@ const handleSave = async () => {
     alert('保存失败')
   }
 }
+
+window.addEventListener('beforeunload', async (e) => {
+  await saveNote()
+})
 </script>
