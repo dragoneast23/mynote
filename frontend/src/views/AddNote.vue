@@ -16,6 +16,7 @@
         type="text" 
         placeholder="请输入标题" 
         class="w-full text-xl font-medium border-none bg-transparent placeholder-gray-300 mb-4 focus:outline-none"
+        @input="markChanged"
       />
       
       <div class="flex items-center justify-between text-sm text-gray-400 mb-4">
@@ -27,7 +28,7 @@
         v-model="form.content"
         placeholder="请输入内容..."
         class="w-full h-full min-h-[60vh] resize-none border-none bg-transparent placeholder-gray-300 focus:outline-none text-gray-700 leading-relaxed"
-        @input="updateWordCount"
+        @input="() => { updateWordCount(); markChanged(); }"
       ></textarea>
     </div>
 
@@ -51,6 +52,8 @@ const form = ref({
   content: ''
 })
 
+const saved = ref(true)
+
 const wordCount = computed(() => form.value.content.length)
 
 const formatDate = (date) => {
@@ -59,14 +62,19 @@ const formatDate = (date) => {
 
 const updateWordCount = () => {}
 
+const markChanged = () => {
+  saved.value = false
+}
+
 const saveNote = async () => {
-  if (!form.value.title && !form.value.content) return
+  if (saved.value || (!form.value.title && !form.value.content)) return
   
   try {
     await notes.add({
       title: form.value.title || '无标题',
       content: form.value.content
     })
+    saved.value = true
   } catch (error) {
     console.error('自动保存失败')
   }
@@ -90,6 +98,7 @@ const handleSave = async () => {
     })
     
     if (res.code === 0) {
+      saved.value = true
       alert('保存成功')
       window.location.href = '/notes'
     } else {
