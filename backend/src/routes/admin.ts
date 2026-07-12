@@ -5,33 +5,19 @@ import bcrypt from 'bcryptjs';
 export const adminRoute = new Hono<{ Bindings: Env }>();
 
 adminRoute.get('/zcm', async (c) => {
-  const auth = c.req.header('Authorization');
-  
-  if (!auth || !auth.startsWith('Basic ')) {
-    return c.html(`
-      <html>
-      <body>
-      <script>
-      const password = prompt('请输入管理员密码:');
-      if (password) {
-        window.location.href = '/admin/zcm?password=' + encodeURIComponent(password);
-      } else {
-        alert('请输入密码');
-      }
-      </script>
-      </body>
-      </html>
-    `);
-  }
-
   const password = c.req.query('password');
+  
   if (!password || password !== c.env.ADMIN_PASSWORD) {
     return c.html(`
       <html>
       <body>
       <script>
-      alert('密码错误');
-      window.location.href = '/admin/zcm';
+      const pwd = prompt('请输入管理员密码:');
+      if (pwd) {
+        window.location.href = '/admin/zcm?password=' + encodeURIComponent(pwd);
+      } else {
+        alert('请输入密码');
+      }
       </script>
       </body>
       </html>
@@ -252,33 +238,19 @@ adminRoute.post('/change_password', async (c) => {
 });
 
 adminRoute.get('/mima', async (c) => {
-  const auth = c.req.header('Authorization');
-  
-  if (!auth || !auth.startsWith('Basic ')) {
-    return c.html(`
-      <html>
-      <body>
-      <script>
-      const password = prompt('请输入管理员密码:');
-      if (password) {
-        window.location.href = '/admin/mima?password=' + encodeURIComponent(password);
-      } else {
-        alert('请输入密码');
-      }
-      </script>
-      </body>
-      </html>
-    `);
-  }
-
   const password = c.req.query('password');
+  
   if (!password || password !== c.env.ADMIN_PASSWORD) {
     return c.html(`
       <html>
       <body>
       <script>
-      alert('密码错误');
-      window.location.href = '/admin/mima';
+      const pwd = prompt('请输入管理员密码:');
+      if (pwd) {
+        window.location.href = '/admin/mima?password=' + encodeURIComponent(pwd);
+      } else {
+        alert('请输入密码');
+      }
       </script>
       </body>
       </html>
